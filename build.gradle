@@ -1,0 +1,49 @@
+buildscript {
+    ext {
+        kotlinVersion = '1.2.41'
+        virgilApi = '5.0.1-SNAPSHOT'
+        gson = '2.7'
+        apacheCommons = '3.0'
+    }
+
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+    }
+}
+
+group 'com.virgilsecurity'
+version '5.1.0'
+
+apply plugin: 'java'
+apply plugin: 'kotlin'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+configurations.all {
+    // Check for updates every build
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+
+    // Virgil Crypto-API
+    implementation("com.virgilsecurity:api:$virgilApi") {
+        changing = true
+    }
+    
+    // Gson
+    implementation "com.google.code.gson:gson:$gson"
+
+    // Apache Commons
+    implementation "org.apache.commons:commons-lang3:$apacheCommons"
+}
